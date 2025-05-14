@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Cotización - MF TORO CORPORACION SAC</title>
+    <style>
+        /* Estilos generales */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        
+        h1 {
+            color: #2563eb;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        
+        .instructions {
+            background-color: #fefce8;
+            border-left: 4px solid #facc15;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #854d0e;
+            font-size: 14px;
+        }
+        
+        /* Estilos para el formulario */
+        .form-section {
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            color: #1e40af;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #4b5563;
+            font-size: 14px;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        table th {
+            background-color: #f3f4f6;
+            font-weight: 500;
+            color: #6b7280;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+        
+        .btn-secondary {
+            background-color: #6b7280;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+        
+        .btn-success {
+            background-color: #10b981;
+        }
+        
+        .btn-success:hover {
+            background-color: #059669;
+        }
+        
+        /* Estilos para la cotización generada */
+        .cotizacion-container {
+            display: none;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .cotizacion {
+            border: 1px solid #d1d5db;
+            padding: 20px;
+        }
+        
+        .company-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .company-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-mf {
+            color: #2563eb;
+            font-weight: bold;
+            font-size: 24px;
+        }
+        
+        .logo-toro {
+            color: #1d4ed8;
+            font-size: 20px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        
+        .company-subtitle {
+            font-size: 10px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+        
+        .contact-info {
+            margin-top: 15px;
+        }
+        
+        .company-contact {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .contact-icon {
+            width: 24px;
+            height: 24px;
+            background-color: #1e293b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 8px;
+            color: white;
+        }
+        
+        .details-box {
+            background-color: #dbeafe;
+            padding: 8px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .title-cotizacion {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .client-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .client-data div {
+            margin-bottom: 5px;
+        }
+        
+        .client-contact {
+            text-align: right;
+        }
+        
+        .table-cotizacion {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        .table-cotizacion th, .table-cotizacion td {
+            border: 1px solid #d1d5db;
+            padding: 8px;
+            font-size: 14px;
+        }
+        
+        .table-cotizacion th {
+            background-color: #dbeafe;
+            font-weight: 500;
+        }
+        
+        .table-cotizacion td:last-child, .table-cotizacion th:last-child {
+            text-align: right;
+        }
+        
+        .conditions {
+            margin-top: 20px;
+        }
+        
+        .conditions h3 {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .conditions ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .conditions li {
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        
+        .highlight {
+            color: #7c3aed;
+            font-weight: bold;
+        }
+        
+        .warning {
+            color: #dc2626;
+        }
+        
+        .indented {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .indented p {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        
+        .signature {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .signature-line {
+            display: inline-block;
+            border-top: 1px solid black;
+            padding-top: 8px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        
+        /* Estilos para impresión */
+        @media print {
+            body {
+                padding: 0;
+                background-color: white;
+            }
+            
+            .container {
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+                box-shadow: none;
+            }
+            
+            .form-section, .instructions, .btn-container, .actions {
+                display: none;
+            }
+            
+            .cotizacion-container {
+                display: block;
+            }
+            
+            .cotizacion {
+                border: none;
+            }
+            
+            @page {
+                size: A4;
+                margin: 1cm;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="formulario-section">
+            <h1>Formulario de Generación de Cotización</h1>
+            
+            <div class="instructions">
+                <strong>Instrucciones:</strong> Complete los campos del formulario y luego haga clic en "Generar Cotización". Podrá imprimir o descargar el documento resultante como PDF.
+            </div>
+            
+            <div class="form-section">
+                <h2 class="section-title">Datos del Cliente</h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="cliente">Señor(es):</label>
+                        <input type="text" id="cliente" name="cliente">
+                    </div>
+                    <div class="form-group">
+                        <label for="ruc">RUC:</label>
+                        <input type="text" id="ruc" name="ruc">
+                    </div>
+                    <div class="form-group">
+                        <label for="atencion">Atención:</label>
+                        <input type="text" id="atencion" name="atencion">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="text" id="telefono" name="telefono">
+                    </div>
+                    <div class="form-group">
+                        <label for="codigo">Código:</label>
+                        <input type="text" id="codigo" name="codigo" value="000000">
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha">Fecha de Emisión:</label>
+                        <input type="date" id="fecha" name="fecha">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h2 class="section-title">Detalle de Servicios</h2>
+                <table id="servicios-table">
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Días</th>
+                            <th>Descripción</th>
+                            <th>Costo Unit. S/</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>01</td>
+                            <td>
+                                <input type="number" class="servicio-dias" min="0" value="0">
+                            </td>
+                            <td>
+                                <input type="text" class="servicio-descripcion" value="SERVICIO DE ALQUILER DE PLATAFORMA UNIPERSONAL GENIE AWP 30S DE 12 METROS">
+                            </td>
+                            <td>
+                                <input type="number" class="servicio-costo" min="0" step="0.01" value="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>02</td>
+                            <td>
+                                <input type="number" class="servicio-dias" min="0" value="0">
+                            </td>
+                            <td>
+                                <input type="text" class="servicio-descripcion" value="SERVICIO DE OPERADOR CERTIFICADO">
+                            </td>
+                            <td>
+                                <input type="number" class="servicio-costo" min="0" step="0.01" value="0">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>03</td>
+                            <td>
+                                <input type="number" class="servicio-dias" min="0" value="0">
+                            </td>
+                            <td>
+                                <input type="text" class="servicio-descripcion" value="SERVICIO DE MOVILIZACION Y DESMOVILIZACION DE DE PLATAFORMA UNIPERSONAL DE 12 METROS">
+                            </td>
+                            <td>
+                                <input type="number" class="servicio-costo" min="0" step="0.01" value="0">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="btn-container">
+                <button class="btn" id="generar-btn">Generar Cotización</button>
+            </div>
+        </div>
+        
+        <div class="cotizacion-container" id="cotizacion-section">
+            <div class="actions">
+                <button class="btn btn-secondary" id="volver-btn">Volver al Formulario</button>
+                <div class="action-buttons">
+                    <button class="btn btn-success" id="imprimir-btn">
+                        <i class="icon">🖨️</i> Imprimir
+                    </button>
+                    <button class="btn" id="pdf-btn">
+                        <i class="icon">📥</i> Descargar PDF
+                    </button>
+                </div>
+            </div>
+            
+            <div class="cotizacion" id="cotizacion-content">
+                <div class="company-header">
+                    <div class="company-logo">
+                        <div>
+                            <div>
+                                <span class="logo-mf">MF</span>
+                                <span class="logo-toro">TORO CORPORACION SAC</span>
+                            </div>
+                            <div class="company-subtitle">FACILITIES MANAGEMENT AND SERVICES</div>
+                            <div class="contact-info">
+                                <div>CARLOS SEBASTIAN TORO</div>
+                                <div>Gerente Comercial</div>
+                                <div>Contacto: 926 601 339 / 934 721 710</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="company-contact">
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <span>Jr. Chamaya N°1187, Breña</span>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <span>corporacion@mfcorporacionsac.com</span>
+                        </div>
+                        <div class="details-box">
+                            <div>CODIGO: <span id="codigo-display">000000</span></div>
+                            <div>FECHA DE EMISION: <span id="fecha-display">--/--/20--</span></div>
+                            <div>RUC: 20607733377</div>
+                            <div>Cuenta Corriente BCP Soles: 191-89717 47-0-04</div>
+                            <div>Cuenta Corriente Inter.: 00219100897174700454</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="title-cotizacion">CONTRATO DE ALQUILER DE MAQUINARIA</div>
+                
+                <div class="client-info">
+                    <div class="client-data">
+                        <div><strong>Señor(es):</strong> <span id="cliente-display"></span></div>
+                        <div><strong>Atención:</strong> <span id="atencion-display"></span></div>
+                        <div><strong>RUC:</strong> <span id="ruc-display"></span></div>
+                    </div>
+                    <div class="client-contact">
+                        <div><strong>EMAIL:</strong> <span id="email-display"></span></div>
+                        <div><strong>TELEFONO:</strong> <span id="telefono-display"></span></div>
+                    </div>
+                </div>
+                
+                <table class="table-cotizacion">
+                    <thead>
+                        <tr>
+                            <th>CANT</th>
+                            <th>DIA</th>
+                            <th>DESCRIPCIÓN</th>
+                            <th>COSTO UNIT S/</th>
+                            <th>SUBTOTAL S/</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-cotizacion-body">
+                        <!-- Aquí se generarán las filas dinámicamente -->
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" style="text-align: right;"><strong>SUBTOTAL NO INCLUYE I.G.V.</strong></td>
+                            <td id="total-cotizacion"><strong>S/ 0.00</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+                
+                <div class="conditions">
+                    <h3>CONDICIONES COMERCIALES GENERALES DEL ALQUILER DEL EQUIPO:</h3>
+                    <ul>
+                        <li>EL CONTRATO NO INCLUYE I.G.V.</li>
+                        <li class="highlight">FORMA DE PAGO : 50% ADELANTO Y 50% CUANDO EL EQUIPO LLEGUE A OBRA.</li>
+                        <li>La valorización está considerada por ocho horas de trabajo diurno, no incluye horario nocturno y/o viceversa de ser el caso contrario.</li>
+                        <li>EL CLIENTE DEBERÁ DEVOLVER TODOS LOS IMPLEMENTOS ENTREGADOS AL ARRENDADOR, DE FALTAR ALGUNO SE VALORIZARÁ Y SE LE FACTURARÁ.</li>
+                        <li>LOS IMPLEMENTOS SON: 02 CONOS DE SEGURIDAD, 01 EXTINTOR, 01 BOTIQUIN, 02 TACOS DE SEGURIDAD, 01 KIT ANTIDERRAME.</li>
+                        <li>El Contrato es por días calendarios, incluye feriados (SE CONTABILIZARÁ HASTA LA DEVOLUCION DEL EQUIPO EN NUESTRAS INSTALACIONES)</li>
+                        <li>En un posible conflicto de intereses respecto a la falta de pagos se le trasladará la deuda al cliente final y habiendo notificado previamente al arrendador.</li>
+                        <li>EL CONTRATO SOLO INCLUYE: LOS EQUIPOS Y SERVICIOS DETALLADOS EN LA DESCIPCION DEL PRESENTE CONTRATO.</li>
+                        <li>La valorización final por las horas adicionales, ( si fuera el caso), se valorizaran respectivamente y según acuerdo comercial con el arrendador.</li>
+                        <li>En el caso que se requieran los servicios de operador fuera de Lima, el CLIENTE proporcionará alimentación, hospedaje y transporte al lugar de trabajo.</li>
+                        <li>De requerir ampliar el tiempo de alquiler, se considerara las mismas condiciones del presente contrato, para lo cual deberán enviar su orden DE SERVICIO y el pago respectivo.</li>
+                        <li>Las paradas o detenciones por causas atribuibles AL CLIENTE, NO GENERA descuento en el cobro del alquiler.</li>
+                    </ul>
+                    
+                    <h3>DE LA RENOVACION:</h3>
+                    <div class="indented">
+                        <p>(a) el contrato se renovará automáticamente al vencimiento del plazo de locación original fijada en las condiciones del presente y por sucesivos periodos de la misma duración, siempre y cuando EL CLIENTE no notifique por algún medio fehaciente y objetivo, en caso de recisión del contrato ( luego de la ampliación ), deberá hacerlo con una anticipación de 72 horas a la fecha del vencimiento respectivo.</p>
+                        <p>(b) La renovación podrá ser de a cuerdo al requerimiento del cliente, según tarifas expuestas y el pago respectivo, para lo cual deberán comunicar por escrito oportunamente.</p>
+                    </div>
+                    
+                    <ul>
+                        <li>Las averías que se produjeran por mal uso de la maquina, negligencia, así como desperfectos NO ATRIBUIBLES al ARRENDADOR, SERAN ASUMIDOS por el Cliente, quien esta obligado a dar pago por las reparaciones correspondientes.</li>
+                        <li>EL CLIENTE, ES REPONSABLE DE LA PROTECCION DEL EQUIPO EN TRABAJOS DE HORMIGANEADO, PINTURA, Y DEMAS ACTIVIDADES QUE DAÑEN EL TABLERO DE CONTROL DE CANASTILLA, BRAZO O BOOM, Y DEMAS PARTES DEL EQUIPO, <span class="warning">(LOS DAÑOS PRODUCIDOS, SE FACTURARÁN.)</span></li>
+                        <li>El CLIENTE es responsable de devolver el equipo Diesel y/o eléctrico según sea el caso con la cantidad de combustible entregado y/o con las baterías cargadas al 100%. Caso contrario se facturará los adicionales generados por el cliente como: tiempo de espera del transporte, combustible adicional, gastos administrativos, asistencia técnica, tiempo de demora por carga de batería, entre otros.</li>
+                        <li>El mantenimiento del equipo, en la zona urbana esta a cargo del ARRENDADOR, en caso de zonas NO URBANAS como: Mineras, proyectos, campo y demás zonas, las tarifas se ajustaran de acuerdo a los estándares operativos, la distancia, etc.</li>
+                        <li>La seguridad y la guardianía del equipo, esta a cargo del CLIENTE.</li>
+                        <li>El equipo será devuelto en las mismas condiciones bajo inventario, de haber algún daño se procederá a su facturación.</li>
+                        <li>El cliente brindara las facilidades para el ingreso a obra: de la supervisión, de personal mecánico para los trabajos respectivos.</li>
+                        <li>El cliente, NO puede dar por finalizado el contrato de forma unilateral, en caso de hacerlo, deberá cancelar el Monto total del presente contrato.</li>
+                        <li>Las horas empleadas en las tareas de mantenimiento, NO ES DEDUCIBLE DEL ALQUILER.</li>
+                    </ul>
+                </div>
+                
+                <div class="signature">
+                    <div class="signature-line">
+                        <p><strong>MF TORO CORPORACION S.A.C</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configurar fecha actual por defecto
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const formattedDate = today.toISOString().substr(0, 10);
+            document.getElementById('fecha').value = formattedDate;
+        });
+        
+        // Función para generar la cotización
+        document.getElementById('generar-btn').addEventListener('click', function() {
+            // Recopilar datos del formulario
+            const cliente = document.getElementById('cliente').value;
+            const ruc = document.getElementById('ruc').value;
+            const atencion = document.getElementById('atencion').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+            const codigo = document.getElementById('codigo').value;
+            const fecha = document.getElementById('fecha').value;
+            
+            // Formatear fecha
+            const fechaObj = new Date(fecha);
+            const dia = String(fechaObj.getDate()).padStart(2, '0');
+            const mes = String(fechaObj.getMonth() + 1).padStart(2, '0');
+            const anio = fechaObj.getFullYear().toString().substr(2, 2);
+            const fechaFormateada = `${dia}/${mes}/${anio}`;
+            
+            // Actualizar la vista de cotización
+            document.getElementById('cliente-display').textContent = cliente;
+            document.getElementById('ruc-display').textContent = ruc;
+            document.getElementById('atencion-display').textContent = atencion;
+            document.getElementById('email-display').textContent = email;
+            document.getElementById('telefono-display').textContent = telefono;
+            document.getElementById('codigo-display').textContent = codigo;
+            document.getElementById('fecha-display').textContent = fechaFormateada;
+            
+            // Generar tabla de servicios
+            const tablaCotizacionBody = document.getElementById('tabla-cotizacion-body');
+            tablaCotizacionBody.innerHTML = '';
+            
+            const diasElements = document.querySelectorAll('.servicio-dias');
+            const descripcionElements = document.querySelectorAll('.servicio-descripcion');
+            const costoElements = document.querySelectorAll('.servicio-costo');
+            
+            let total = 0;
+            
+            for (let i = 0; i < diasElements.length; i++) {
+                const dias = parseInt(diasElements[i].value);
+                const descripcion = descripcionElements[i].value;
+                const costo = parseFloat(costoElements[i].value);
+                
+                const subtotal = costo * (dias > 0 ? dias : 1);
+                total += subtotal;
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${String(i + 1).padStart(2, '0')}</td>
+                    <td>${dias > 0 ? dias : 'GLB'}</td>
+                    <td>${descripcion}</td>
+                    <td>S/ ${costo.toFixed(2)}</td>
+                    <td>S/ ${subtotal.toFixed(2)}</td>
+                `;
+                tablaCotizacionBody.appendChild(tr);
+            }
+            
+            document.getElementById('total-cotizacion').innerHTML = `<strong>S/ ${total.toFixed(2)}</strong>`;
+            
+            // Mostrar sección de cotización y ocultar formulario
+            document.getElementById('formulario-section').style.display = 'none';
+            document.getElementById('cotizacion-section').style.display = 'block';
+        });
+        
+        // Volver al formulario
+        document.getElementById('volver-btn').addEventListener('click', function() {
+            document.getElementById('formulario-section').style.display = 'block';
+            document.getElementById('cotizacion-section').style.display = 'none';
+        });
+        
+        // Imprimir cotización
+        document.getElementById('imprimir-btn').addEventListener('click', function() {
+            window.print();
+        });
+        
+        // Descargar como PDF
+        document.getElementById('pdf-btn').addEventListener('click', function() {
+            alert("Para guardar como PDF:\n1. Se abrirá la ventana de impresión\n2. Seleccione 'Guardar como PDF' en el destino de impresión\n3. Haga clic en Guardar");
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
